@@ -1,0 +1,26 @@
+CREATE EXTERNAL TABLE `receivedfilesjson`(
+  `id` string COMMENT 'from deserializer', 
+  `filename` string COMMENT 'from deserializer', 
+  `submissiondate` string COMMENT 'from deserializer', 
+  `status` string COMMENT 'from deserializer')
+ROW FORMAT SERDE 
+  'org.openx.data.jsonserde.JsonSerDe' 
+WITH SERDEPROPERTIES ( 
+  'paths'='Filename,Id,Status,SubmissionDate') 
+STORED AS INPUTFORMAT 
+  'org.apache.hadoop.mapred.TextInputFormat' 
+OUTPUTFORMAT 
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
+LOCATION
+  's3://athena-demo-data-lake/DataFiles/ReceivedFilesJson/'
+TBLPROPERTIES (
+  'CrawlerSchemaDeserializerVersion'='1.0', 
+  'CrawlerSchemaSerializerVersion'='1.0', 
+  'UPDATED_BY_CRAWLER'='TestCrawler', 
+  'averageRecordSize'='86', 
+  'classification'='json', 
+  'compressionType'='none', 
+  'objectCount'='1', 
+  'recordCount'='3', 
+  'sizeKey'='260', 
+  'typeOfData'='file')
